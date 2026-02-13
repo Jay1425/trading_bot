@@ -146,9 +146,12 @@ This trading bot operates under the following assumptions:
 The bot logs all activity to `logs/trading.log` with the following format:
 
 ```
-2026-02-13 16:55:51,712 | INFO | bot.orders | Notional Value: 197.28 USDT (Current Price: 98640.0)
-2026-02-13 16:55:51,712 | INFO | bot.orders | Order Request: {'symbol': 'BTCUSDT', 'side': 'BUY', 'type': 'MARKET', 'quantity': 0.002}
-2026-02-13 16:55:52,646 | INFO | bot.orders | Order Response: {'orderId': 12241303472, 'symbol': 'BTCUSDT', 'status': 'NEW', ...}
+2026-02-13 16:55:51,712 | INFO | bot.orders | ===== New Order Attempt =====
+2026-02-13 16:55:51,712 | INFO | bot.orders | Symbol: BTCUSDT | Side: BUY | Type: MARKET | Qty: 0.002
+2026-02-13 16:55:51,712 | INFO | bot.orders | Current Price: 98640.0
+2026-02-13 16:55:51,712 | INFO | bot.orders | Calculated Notional: 197.28 USDT
+2026-02-13 16:55:52,646 | INFO | bot.orders | Order ID: 12241303472 | Status: NEW | Executed Qty: 0.000 | Avg Price: N/A
+2026-02-13 16:55:52,646 | INFO | bot.orders | ===== Order Completed =====
 ```
 
 **Log Entry Components:**
@@ -158,10 +161,19 @@ The bot logs all activity to `logs/trading.log` with the following format:
 - **Message**: Detailed information about the action
 
 **Key Log Events:**
-- **Notional Value**: Shows calculated order value and current market price
-- **Order Request**: Parameters sent to Binance API
-- **Order Response**: Complete response from exchange including order ID, status, and execution details
-- **Errors**: Any exceptions or validation failures with stack traces
+- **Order Boundaries**: Clear visual separation between different orders
+- **Order Summary**: Trading pair, side, type, and quantity
+- **Current Price**: Live market price fetched for validation
+- **Notional Value**: Calculated order value in USDT (quantity × price)
+- **Order Response**: Structured summary with order ID, status, execution details
+- **Errors**: Complete exception details with stack traces for debugging
+
+**Log Structure Benefits:**
+- Clear boundaries between order attempts
+- Structured, readable format (not raw API dumps)
+- Financial awareness (notional validation)
+- Professional error handling with stack traces
+- Easy to audit and analyze trading activity
 
 Use logs for:
 - Debugging failed orders

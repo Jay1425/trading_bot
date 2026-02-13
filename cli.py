@@ -1,5 +1,6 @@
 import argparse
 import os
+import logging
 from bot.client import BinanceFuturesClient
 from bot.orders import place_order
 from bot.validators import *
@@ -8,10 +9,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+logger = logging.getLogger(__name__)
+
 
 def main():
     """Main entry point for the trading bot CLI."""
     setup_logging()
+    
+    # Log startup information
+    logger.info("="*60)
+    logger.info("Trading Bot Started")
+    logger.info("Exchange: Binance Futures Testnet")
+    logger.info("Endpoint: https://testnet.binancefuture.com")
+    logger.info("="*60)
 
     parser = argparse.ArgumentParser(
         description="Binance Futures Trading Bot - Place orders on testnet"
